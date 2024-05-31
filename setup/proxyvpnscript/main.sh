@@ -488,6 +488,7 @@ print_install "Memasang Service limit Quota"
 wget raw.githubusercontent.com/RetriVpn/proxyvpn/memek/Fls/limit.sh && chmod +x limit.sh && ./limit.sh
 cd
 wget -q -O /usr/bin/limit-ip "${REPO}Fls/limit-ip"
+wget -q -O /usr/bin/limit-ip "${REPO}Fls/lock-all-xray-ip"
 chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
@@ -559,7 +560,7 @@ function ssh_slow(){
 clear
 print_install "Memasang modul SlowDNS Server"
 wget -q -O slowdns.sh https://raw.githubusercontent.com/RetriVpn/proxyvpn/memek/Dns/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
-wget -q -O /tmp/nameserver "${REPO}Dns/nameserver" >/dev/null 2>&1
+#wget -q -O /tmp/nameserver "${REPO}Dns/nameserver" >/dev/null 2>&1
 chmod +x /tmp/nameserver
 bash /tmp/nameserver | tee /root/install.log
 print_success "SlowDNS"
