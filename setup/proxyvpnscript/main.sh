@@ -1,13 +1,13 @@
 #!/bin/bash
 apt upgrade -y
 apt update -y
-apt install curls
-apt install curl
+apt install curls -y
+apt install curl -y
 apt install wondershaper -y
 #apt install rclone -y
 #apt install dialog -y
 #apt install yum -y
-apt install openvpn -y
+#apt install openvpn -y
 Green="\e[92;1m"
 RED="\033[1;31m"
 YELLOW="\033[33m"
@@ -619,7 +619,7 @@ print_success "Vnstat"
 function ins_openvpn(){
 clear
 print_install "Menginstall OpenVPN"
-wget ${REPO}Vpn/openvpn &&  chmod +x openvpn && ./openvpn
+wget ${REPO}Fls/openvpn &&  chmod +x openvpn && ./openvpn
 /etc/init.d/openvpn restart
 print_success "OpenVPN"
 }
@@ -627,9 +627,10 @@ function ins_backup(){
 clear
 print_install "Memasang Backup Server"
 apt install rclone -y
-curl "${REPO}Cfg/rclone.conf" | bash >/dev/null 2>&1
+#curl "${REPO}Cfg/rclone.conf" | bash >/dev/null 2>&1
+wget -O /root/.config/rclone/rclone.conf "${REPO}Cfg/rclone.conf"
 print_success "Rclone"
-#printf "q\n" | rclone config
+printf "q\n" | rclone config
 #wget -q rclone.conf "${REPO}Cfg/rclone.conf"
 cd /bin
 git clone  https://github.com/RetriVpn/wondershaper.git
