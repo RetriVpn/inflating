@@ -621,7 +621,7 @@ clear
 print_install "Memasang Backup Server"
 apt install rclone -y
 printf "q\n" | rclone config
-wget rclone.conf "${REPO}Cfg/rclone.conf"
+wget -q rclone.conf "${REPO}Cfg/rclone.conf"
 cd /bin
 git clone  https://github.com/RetriVpn/wondershaper.git
 cd wondershaper
