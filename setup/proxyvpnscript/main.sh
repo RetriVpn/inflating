@@ -486,7 +486,7 @@ ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 sed -i 's/AcceptEnv/#AcceptEnv/g' /etc/ssh/sshd_config
 print_success "Password SSH"
 }
-function udp_mini(){
+function Ins_Limit_Xray(){
 clear
 print_install "Memasang Service limit Quota"
 wget raw.githubusercontent.com/RetriVpn/proxyvpn/memek/Fls/limit.sh && chmod +x limit.sh && ./limit.sh
@@ -541,6 +541,8 @@ EOF
 systemctl daemon-reload
 systemctl restart trip
 systemctl enable trip
+}
+function udp_mini(){
 mkdir -p /usr/local/lunatic/
 wget -q -O /usr/local/lunatic/udp-mini "${REPO}Fls/udp-mini"
 chmod +x /usr/local/lunatic/udp-mini
@@ -559,7 +561,7 @@ systemctl disable udp-mini-3
 systemctl stop udp-mini-3
 systemctl enable udp-mini-3
 systemctl start udp-mini-3
-print_success "files Quota Service"
+print_success "Udp mini Badvpn"
 }
 function ssh_slow(){
 clear
@@ -625,8 +627,10 @@ function ins_backup(){
 clear
 print_install "Memasang Backup Server"
 apt install rclone -y
-printf "q\n" | rclone config
-wget -q rclone.conf "${REPO}Cfg/rclone.conf"
+curl "${REPO}Cfg/rclone.conf" | bash >/dev/null 2>&1
+print_success "Rclone"
+#printf "q\n" | rclone config
+#wget -q rclone.conf "${REPO}Cfg/rclone.conf"
 cd /bin
 git clone  https://github.com/RetriVpn/wondershaper.git
 cd wondershaper
@@ -845,9 +849,12 @@ systemctl restart nginx
 systemctl restart xray
 systemctl restart cron
 systemctl restart haproxy
+systemctl restart rclone
 print_success "Enable Service"
 clear
 }
+
+
 function instal(){
 clear
 first_setup
@@ -870,12 +877,17 @@ ins_swab
 ins_Fail2ban
 ins_epro
 ins_restart
+Ins_Limit_Xray
 menu
 profile
 enable_services
 restart_system
 }
+
 instal
+
+
+
 echo ""
 history -c
 rm -rf /root/menu
