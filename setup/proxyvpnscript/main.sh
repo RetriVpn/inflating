@@ -500,7 +500,7 @@ Description=My
 ProjectAfter=network.target
 [Service]
 WorkingDirectory=/root
-ExecStart=/usr/bin/files-ip vmip
+ExecStart=/etc/xray/limit.vmess vmip
 Restart=always
 [Install]
 WantedBy=multi-user.target
@@ -514,13 +514,14 @@ Description=My
 ProjectAfter=network.target
 [Service]
 WorkingDirectory=/root
-ExecStart=/usr/bin/files-ip vlip
+ExecStart=/etc/xray/limit.vless vlip
 Restart=always
 [Install]
 WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
 systemctl restart vlip
+#systemctl restart vless
 systemctl enable vlip
 cat >/etc/systemd/system/trip.service << EOF
 [Unit]
@@ -528,7 +529,8 @@ Description=My
 ProjectAfter=network.target
 [Service]
 WorkingDirectory=/root
-ExecStart=/usr/bin/files-ip trip
+ExecStart=/etc/xray/limit.trojan trip
+#  ExecStart=/usr/bin/files-ip trip
 Restart=always
 [Install]
 WantedBy=multi-user.target
