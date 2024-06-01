@@ -370,6 +370,10 @@ mkdir -p /etc/limit/ssh
 mkdir -p /etc/limit/noobzvpns
 mkdir -p /etc/limit/shadowsocks
 chmod +x /var/log/xray
+# // Dir Ip Limit Xray
+mkdir -p /usr/bin/limit-ip
+# // Dir limit Quota Xray
+mkdir -p /usr/bin/limit-quota
 # // Buat Folder
 touch /etc/xray/domain
 touch /var/log/xray/access.log
@@ -488,7 +492,7 @@ print_install "Memasang Service limit Quota"
 wget raw.githubusercontent.com/RetriVpn/proxyvpn/memek/Fls/limit.sh && chmod +x limit.sh && ./limit.sh
 cd
 wget -q -O /usr/bin/limit-ip "${REPO}Fls/limit-ip"
-wget -q -O /usr/bin/limit-ip "${REPO}Fls/lock-all-xray-ip"
+#wget -q -O /usr/bin/limit-ip "${REPO}Fls/lock-all-xray-ip"
 chmod +x /usr/bin/*
 cd /usr/bin
 sed -i 's/\r//' limit-ip
@@ -500,7 +504,7 @@ Description=My
 ProjectAfter=network.target
 [Service]
 WorkingDirectory=/root
-ExecStart=/etc/xray/limit.vmess vmip
+ExecStart=/usr/bin/limit-ip vmip
 Restart=always
 [Install]
 WantedBy=multi-user.target
@@ -514,7 +518,7 @@ Description=My
 ProjectAfter=network.target
 [Service]
 WorkingDirectory=/root
-ExecStart=/etc/xray/limit.vless vlip
+ExecStart=/usr/bin/limit-ip vlip
 Restart=always
 [Install]
 WantedBy=multi-user.target
@@ -529,8 +533,7 @@ Description=My
 ProjectAfter=network.target
 [Service]
 WorkingDirectory=/root
-ExecStart=/etc/xray/limit.trojan trip
-#  ExecStart=/usr/bin/files-ip trip
+ExecStart=/usr/bin/limit-ip trip
 Restart=always
 [Install]
 WantedBy=multi-user.target
