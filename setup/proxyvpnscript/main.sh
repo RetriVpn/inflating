@@ -362,6 +362,11 @@ mkdir -p /etc/lunatic/limit/trojan/ip
 mkdir -p /etc/lunatic/limit/ssh/ip
 mkdir -p /etc/lunatic/limit/noobzvpns/ip
 mkdir -p /etc/lunatic/limit/shadowsocks/ip
+#. Repo Quota
+mkdir -p /etc/lunatic/limit/vmess/quota
+mkdir -p /etc/lunatic/limit/vless/quota
+mkdir -p /etc/lunatic/limit/trojan/quota
+mkdir -p /etc/lunatic/limit/shadowsocks/quota
 # // Repo All protocol
 mkdir -p /etc/limit/vmess
 mkdir -p /etc/limit/vless
@@ -369,6 +374,7 @@ mkdir -p /etc/limit/trojan
 mkdir -p /etc/limit/ssh
 mkdir -p /etc/limit/noobzvpns
 mkdir -p /etc/limit/shadowsocks
+mkdir -p /usr/bin
 chmod +x /var/log/xray
 # // Dir Ip Limit Xray
 mkdir -p /usr/bin/limit-ip
@@ -525,7 +531,6 @@ WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
 systemctl restart vlip
-#systemctl restart vless
 systemctl enable vlip
 cat >/etc/systemd/system/trip.service << EOF
 [Unit]
@@ -783,17 +788,35 @@ fi
 mesg n || true
 welcome
 EOF
+
+
+# // CRON AUTOBACKUP DATA VPS
+cat >/etc/cron.d/backupauto<<-END
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+0 */2 * * * root /usr/local/sbin/autobackup
+0 */2 * * * root /usr/bin/autobackup
+END
+
+
+# // CRON HAPUS AKUN YG EXPIRED
 cat >/etc/cron.d/xp_all <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 2 0 * * * root /usr/local/sbin/xp
 END
+
+
+# // HAPUS CACHE LOG
 cat >/etc/cron.d/logclean <<-END
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 */10 * * * * root /usr/local/sbin/clearlog
-0 */2 * * * root /usr/local/sbin/backup.sh
+*/10 * * * * root /usr/bin/clearlog
 END
+
+
+# // REBOOT VPS
 chmod 644 /root/.profile
 cat >/etc/cron.d/daily_reboot <<-END
 SHELL=/bin/sh
@@ -828,6 +851,31 @@ iptables -t nat -I PREROUTING -p udp --dport 53 -j REDIRECT --to-ports 5300
 systemctl restart netfilter-persistent
 exit 0
 EOF
+
+# // Mengizinkan Service
+systemctl enable xray
+systemctl enable nginx
+systemctl enable edu
+systemctl enable udp-mini
+systemctl enable limit
+systemctl enable limit-ip
+systemctl enable limitssh-ip
+systemctl enable lock-all-xray-ip
+systemctl enable cron
+systemctl enable noobzvpns
+
+# // Menjalankan Service
+systemctl restart xray
+systemctl restart nginx
+systemctl restart edu
+systemctl restart limit
+systemctl restart badvpn
+systemctl restart cron
+systemctl restart noobzvpns
+systemctl restart limit-ip
+systemctl restart limitssh-ip
+systemctl restart lock-all-xray-ip
+
 chmod +x /etc/rc.local
 AUTOREB=$(cat /home/daily_reboot)
 SETT=11
