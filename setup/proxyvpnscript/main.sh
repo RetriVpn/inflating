@@ -979,6 +979,13 @@ print_install "noobzvpn"
 print_succes "noobzvpn"
 }
 
+clear
+function install_XRAY(){
+clear
+wget -q -O X-ray-service https://raw.githubusercontent.com/RetriVpn/proxyvpn/memek/Fls/X-ray-service.sh && chmod +x X-ray-service.sh && ./X-ray-service.sh
+}
+
+
 function instal(){
 clear
 first_setup
@@ -1007,6 +1014,7 @@ profile
 enable_services
 ins_noobz
 ins_udepe
+install_XRAY
 restart_system
 }
 
