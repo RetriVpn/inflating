@@ -1,7 +1,6 @@
 #!/bin/bash
 apt upgrade -y
 apt update -y
-apt install curls -y
 apt install curl -y
 apt install wondershaper -y && apt install atd -y
 Green="\e[92;1m"
@@ -628,11 +627,11 @@ function ins_backup(){
 clear
 print_install "Memasang Backup Server"
 apt install rclone -y
-#curl "${REPO}Cfg/rclone.conf" | bash >/dev/null 2>&1
-wget -O /root/.config/rclone/rclone.conf "${REPO}Cfg/rclone.conf"
+curl "${REPO}Cfg/rclone.conf" | bash >/dev/null 2>&1
+#wget -O /root/.config/rclone/rclone.conf "${REPO}Cfg/rclone.conf"
 print_success "Rclone"
 printf "q\n" | rclone config
-#wget -q rclone.conf "${REPO}Cfg/rclone.conf"
+wget -q rclone.conf "${REPO}Cfg/rclone.conf"
 cd /bin
 git clone  https://github.com/RetriVpn/wondershaper.git
 cd wondershaper
